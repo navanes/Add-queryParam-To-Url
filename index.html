@@ -1,0 +1,106 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+  <title>Get URL Parameter</title>
+  <meta charset="UTF-8">
+  <script>
+   /* let baseUrl = `file:///C:/JS/GetUrlParameters/index.html`;
+    let sortOrder;
+    let pageCount;
+    function getParameter( parameterName ) {
+      //let parameters = new URLSearchParams(window.location.search);
+      var myPath = window.location.href;
+      var selectedValue = document.getElementById('list').value;
+      let searchRequest = new XMLHttpRequest();
+      console.log(searchRequest);
+      searchRequest.open('GET', `${myPath}selectedLanguage/?query=${selectedValue}`);
+      //mypath.append(selectedValue);
+
+      console.log(myPath);
+     /!* return parameters.get(parameterName);*!/
+    }*/
+/*    function getSelectedValue() {
+
+      var selectedValue = document.getElementById('list').value;
+      return selectedValue;
+    }*/
+
+   /* function insertParam(key, value) {
+
+      key = encodeURIComponent(key);
+      value = encodeURIComponent(getSelectedValue());
+
+      // kvp looks like ['key1=value1', 'key2=value2', ...]
+      var kvp = document.location.search.substr(1).split('&');
+      let i=0;
+
+      for(i; i<kvp.length; i++){
+        if (kvp[i].startsWith(key + '=')) {
+          let pair = kvp[i].split('=');
+          pair[1] = value;
+          kvp[i] = pair.join('=');
+          break;
+        }
+      }
+
+      if(i >= kvp.length){
+        kvp[kvp.length] = [key,value].join('=');
+      }
+
+      // can return this or...
+      let params = kvp.join('&');
+
+      // reload page with new params
+      document.location.search = params;
+    }*/
+  function selecteditem() {
+    var selMovType = document.getElementById('querySelect');
+    var selectedItem = sessionStorage.getItem('SelectedItem');
+
+    if (selectedItem) {
+      selMovType.value = selectedItem;
+    }
+  }
+   function urlParam(){
+     var val = $('#querySelect').val(); // This should be the new CurrencyCode, extracted from a select box
+     console.log(val);
+     var pag = window.location.pathname;
+     var url = window.location.search;
+     url = url.replace("?", "").split("&"); // Clean up the URL, and create an array with each query parameter
+
+     var n = 0;
+     for (var count = 0; count < url.length; count++) {
+       if (!url[count].indexOf("Log")) { // Figure out if if/where the Currency is set in the array, then break out
+         n = count;
+         break;
+       }
+     }
+
+     if (n !=0) {
+       url.splice(n,1); // If the Currency was set, remove it from the array
+     }
+
+     var len = url.length;
+     var newUrl = url.join("&"); // Restringify the array
+
+     if (len > 0) { // Check whether or not the currency is the only parameter, then build new URL with ? or &
+       newUrl = pag + "?" + newUrl + "&Log=" + val;
+     } else {
+       newUrl = pag + newUrl + "?Log=" + val;
+     }
+
+     window.history.pushState(null, null, newUrl); // Finished, let's go!
+
+   }
+  </script>
+</head>
+<body>
+  <select id="querySelect" onchange="urlParam()">
+    <option value="">select your language</option>
+    <option value="js">Javascript</option>
+    <option value="php">PHP</option>
+    <option value="sharp">sharp</option>
+    <option value="java">Java</option>
+  </select>
+
+</body>
